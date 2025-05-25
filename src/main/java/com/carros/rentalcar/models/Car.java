@@ -6,8 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import java.util.Objects;
 
 @Entity
@@ -20,18 +19,15 @@ public class Car {
     @Column(name = "id", unique = true)
     private Long id;
 
-    @NotNull
-    @NotEmpty
+    @NotBlank
     @Column(name = "model", nullable = false)
     private String model;
 
-    @NotNull
-    @NotEmpty
+    @NotBlank
     @Column(name = "brand", nullable = false)
     private String brand;
 
-    @NotNull
-    @NotEmpty
+    @NotBlank
     @Column(name = "licensePlate", nullable = false, length = 10)
     private String licensePlate;
 
