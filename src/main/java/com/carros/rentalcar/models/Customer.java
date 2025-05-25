@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = Car.TABLE_NAME)
+@Table(name = Customer.TABLE_NAME)
 public class Customer {
     public static final String TABLE_NAME = "customer";
 
@@ -28,11 +28,6 @@ public class Customer {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @NotBlank
-    @Column(name = "licensePlate", nullable = false, length = 10)
-    private String licensePlate;
-
-
     public Customer() {
     }
 
@@ -40,7 +35,6 @@ public class Customer {
         this.id = id;
         this.model = model;
         this.email = email;
-        this.licensePlate = licensePlate;
     }
 
 
@@ -66,14 +60,6 @@ public class Customer {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getLicensePlate() {
-        return this.licensePlate;
-    }
-
-    public void setLicensePlate(String licensePlate) {
-        this.licensePlate = licensePlate;
     }
 
 }
