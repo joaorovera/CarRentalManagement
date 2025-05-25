@@ -8,8 +8,12 @@ The application provides a **RESTful API** that can be tested and interacted wit
 ## 🔧 Technologies Used
 
 - **Java 24+**
-- **Spring Boot**
-- **MySQL**
-- **Postman**
-- **Maven**
 - **MVC Architecture**
+
+- **Maven**
+- **Spring Boot**
+- **Postman**
+
+- **MySQL**
+
+- **Git**
