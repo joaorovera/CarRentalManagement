@@ -1,4 +1,4 @@
-package com.carros.todosimple.models;
+package com.carros.rentalcar.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

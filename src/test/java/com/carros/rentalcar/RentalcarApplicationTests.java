@@ -1,10 +1,10 @@
-package com.carros.todosimple;
+package com.carros.rentalcar;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TodosimpleApplicationTests {
+class RentalcarApplicationTests {
 
 	@Test
 	void contextLoads() {
