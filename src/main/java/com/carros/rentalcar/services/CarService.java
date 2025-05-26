@@ -14,23 +14,31 @@ public class CarService {
     @Autowired
     private CarRepository carRepository;
 
-    @Transactional
     public Car findById(Long id) {
-        return carRepository.findById(id).orElseThrow();
+        return carRepository.findById(id).orElseThrow(() -> new RuntimeException("Car not found with id: " + id));
     }
 
     @Transactional
     public Car create(Car car) {
-        return carRepository.save(car);
+        car.setId(null); // Ensure the ID is null for a new entity
+        car = this.carRepository.save(car);
+        return car;
     }
 
     @Transactional
     public Car update(Car car) {
-        return carRepository.save(car);
+        Car newCar = findById(car.getId());
+        newCar.setLicensePlate(car.getLicensePlate());
+        return carRepository.save(newCar);
     }
 
     @Transactional
     public void delete(Long id) {
-        carRepository.deleteById(id);
+        findById(id);
+        try {
+            this.carRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Error deleting car with id: " + id, e);
+        }
     }
 }
