@@ -1,10 +1,14 @@
 package com.carros.rentalcar.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -21,19 +25,23 @@ public class Customer {
 
     @NotBlank
     @Column(name = "name", nullable = false)
-    private String model;
+    private String name;
 
     @NotBlank
     @Email
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @OneToMany(mappedBy = "customer")
+    private List<Rental> rentals = new ArrayList<>();
+
+
     public Customer() {
     }
 
-    public Customer(Long id, String model, String email, String licensePlate) {
+    public Customer(Long id, String name, String email) {
         this.id = id;
-        this.model = model;
+        this.name = name;
         this.email = email;
     }
 
@@ -46,12 +54,12 @@ public class Customer {
         this.id = id;
     }
 
-    public String getModel() {
-        return this.model;
+    public String getName() {
+        return this.name;
     }
 
-    public void setModel(String model) {
-        this.model = model;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -61,5 +69,15 @@ public class Customer {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
+    public List<Rental> getRentals() {
+        return this.rentals;
+    }
+
+    public void setRentals(List<Rental> rentals) {
+        this.rentals = rentals;
+    }
+
 
 }

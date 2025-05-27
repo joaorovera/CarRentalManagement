@@ -4,15 +4,14 @@ package com.carros.rentalcar.models;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ForeignKey;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
@@ -29,15 +28,15 @@ public class Rental {
     @Column(name = "id", unique = true)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "customer_id", nullable = false,
-                foreignKey = @ForeignKey(name = "fk_rental_customer"))
+    @NotBlank
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false, updatable = false)
     private Customer customer;
 
     @NotBlank
     @ManyToMany
     @JoinTable(
-        name = "rental_cars",
+        name = "cars",
         joinColumns = @JoinColumn(name = "rental_id"),
         inverseJoinColumns = @JoinColumn(name = "car_id")
     )
@@ -101,6 +100,19 @@ public class Rental {
 
     public void setReturnDate(LocalDateTime returnDate) {
         this.returnDate = returnDate;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Rental rental)) return false;
+        return Objects.equals(id, rental.id) && Objects.equals(customer, rental.customer) && Objects.equals(cars, rental.cars) && Objects.equals(rentalDate, rental.rentalDate) && Objects.equals(returnDate, rental.returnDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, customer, cars, rentalDate, returnDate);
     }
 
 }
