@@ -1,12 +1,16 @@
 package com.carros.rentalcar.services;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.carros.rentalcar.models.Car;
 import com.carros.rentalcar.models.Customer;
 import com.carros.rentalcar.models.Rental;
+import com.carros.rentalcar.repositories.CarRepository;
+import com.carros.rentalcar.repositories.CustomerRepository;
 import com.carros.rentalcar.repositories.RentalRepository;
 
 @Service
@@ -15,7 +19,10 @@ public class RentalService {
     private RentalRepository rentalRepository;
 
     @Autowired
-    private CustomerService customerService;
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private CarRepository carRepository;
 
     public Rental findById(Long id) {
         Optional<Rental> rental = rentalRepository.findById(id);
@@ -23,12 +30,17 @@ public class RentalService {
     }
 
     @Transactional
-    public Rental create(Rental rental) {
-        Customer customer = customerService.findById(rental.getCustomer().getId());
-        rental.setId(null);
+    public Rental create(Long customerId, List<Long> carIds, Rental rental) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado com id: " + customerId));
+        List<Car> cars = carRepository.findAllById(carIds);
+        if (cars.size() != carIds.size()) {
+            throw new RuntimeException("Um ou mais carros não foram encontrados");
+        }
+
         rental.setCustomer(customer);
-        rental = this.rentalRepository.save(rental);
-        return rental;
+        rental.setCars(cars);
+        return rentalRepository.save(rental);
     }
 
     @Transactional
