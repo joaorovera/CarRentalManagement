@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +18,8 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = Rental.TABLE_NAME)
@@ -28,21 +31,22 @@ public class Rental {
     @Column(name = "id", unique = true)
     private Long id;
 
-    @NotBlank
+    @NotNull
     @ManyToOne
+    @JsonIgnoreProperties("rentals")
     @JoinColumn(name = "customer_id", nullable = false, updatable = false)
     private Customer customer;
 
-    @NotBlank
+    @NotEmpty
     @ManyToMany
     @JoinTable(
-        name = "cars",
+        name = "rental_car",
         joinColumns = @JoinColumn(name = "rental_id"),
         inverseJoinColumns = @JoinColumn(name = "car_id")
     )
     private List<Car> cars = new ArrayList<>();
 
-    @NotBlank
+    @NotNull
     @Column(name = "rental_date", nullable = false)
     private LocalDateTime rentalDate;
 

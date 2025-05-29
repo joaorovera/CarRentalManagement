@@ -28,7 +28,7 @@ public class Car {
     private String brand;
 
     @NotBlank
-    @Column(name = "licensePlate", nullable = false, length = 10)
+    @Column(name = "licensePlate", nullable = false, length = 10, unique = true)
     private String licensePlate;
 
 
