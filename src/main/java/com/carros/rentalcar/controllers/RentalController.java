@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/rental")
 @Validated
+@CrossOrigin(origins = "*")
 public class RentalController {
 
     @Autowired
